@@ -17,7 +17,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 delete_option('wp360_company_address');
 delete_option('wp360_thankyoumsg');
 delete_option('wp360_invoicestartnumber');
-
+//comment posts
 $wp360_posts = get_posts(
 	[
 		'post_type'   => [ 'wp360_invoice'],
