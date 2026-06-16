@@ -2,23 +2,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
-// Add Invoice Tab to My Account Page
-function wp360invoice_add_invoice_tab_to_my_account( $menu_links ) {
-    $menu_links = array_slice( $menu_links, 0, 3, true ) 
-	+ array( 'wp360_invoice' => 'WP360 Invoice' )
-	+ array_slice( $menu_links, 3, NULL, true );
-    return $menu_links;
-}
-add_filter( 'woocommerce_account_menu_items', 'wp360invoice_add_invoice_tab_to_my_account', 20 );
-function wp360invoice_invoice_endpoint() {
-    add_rewrite_endpoint( 'wp360_invoice', EP_ROOT | EP_PAGES );
-}  
-add_action( 'init', 'wp360invoice_invoice_endpoint' );
-function wp360invoice_invoice_query_vars( $vars ) {
-    $vars[] = 'wp360_invoice';
-    return $vars;
-}
-add_filter( 'query_vars', 'wp360invoice_invoice_query_vars', 0 );
+
+// function wp360invoice_invoice_query_vars( $vars ) {
+//     $vars[] = 'wp360_invoice';
+//     return $vars;
+// }
+// add_filter( 'query_vars', 'wp360invoice_invoice_query_vars', 0 );
 
 
 function wp360invoice_invoice_tab_content() {
@@ -26,13 +15,13 @@ function wp360invoice_invoice_tab_content() {
         'post_type' => 'wp360_invoice',
         'post_status'=> 'publish',
         'posts_per_page' => -1,
-        'meta_query' => array(
-            array(
+        'meta_query'     => [
+            [
                 'key'     => 'invoice_user',
                 'value'   => get_current_user_id(),
                 'compare' => '=',
-            ),
-        ),
+            ],
+        ],
     ];
     $userInvoices = new WP_Query($invoiceArgs);
     $res = '<h3>'.esc_html__('Your Invoices','wp360-invoice').'</h3>';
@@ -87,6 +76,6 @@ function wp360invoice_invoice_tab_content() {
     echo wp_kses_post($res);
  }
    
- add_action( 'woocommerce_account_wp360_invoice_endpoint', 'wp360invoice_invoice_tab_content' );
+//  add_action( 'woocommerce_account_wp360_invoice_endpoint', 'wp360invoice_invoice_tab_content' );
 
 
